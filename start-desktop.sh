@@ -16,10 +16,18 @@ vncserver -kill :1 || true
 pkill Xtigervnc || true
 pkill -f novnc_proxy || true
 
-# Ensure VNC password
+# Ensure VNC password exists (password = "codespaces")
 mkdir -p ~/.vnc
 if [ ! -f ~/.vnc/passwd ]; then
-  echo "codespaces" | vncpasswd -f > ~/.vnc/passwd
+  sudo apt-get install -y expect
+  expect <<EOF
+spawn vncpasswd
+expect "Password:"
+send "codespaces\r"
+expect "Verify:"
+send "codespaces\r"
+expect eof
+EOF
   chmod 600 ~/.vnc/passwd
 fi
 
@@ -59,7 +67,6 @@ nohup ~/noVNC/utils/novnc_proxy \
 echo "🎮 Launching Minecraft client..."
 (
   sleep 5
-  ls
   cd Forge-Project-1.20.X || true
   chmod +x gradlew
   DISPLAY=:1 ./gradlew runClient || echo "⚠️ Failed to run client."
