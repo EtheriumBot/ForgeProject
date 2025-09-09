@@ -1,38 +1,43 @@
 #!/usr/bin/env bash
 set -e
 
-echo "🔧 Preparing environment..."
+echo "🔧 Installing Xpra + LXDE..."
 
-# Update system and install dependencies
+# Update system
 sudo apt-get update
 sudo apt-get install -y \
-  xpra xserver-xorg-video-dummy \
-  lxde-core lxterminal openjdk-17-jdk \
-  git wget
+  xpra lxde-core lxterminal \
+  openjdk-17-jdk git
 
 # Kill old xpra sessions
 xpra stop :100 || true
 
-# Start xpra with HTML5 support on port 8080
-echo "🖥️ Starting Xpra server on display :100..."
+# Free up port 8080 if something is using it
+echo "🔧 Checking port 8080..."
+PID=$(lsof -ti:8080 || true)
+if [ -n "$PID" ]; then
+  echo "⚠️ Port 8080 is busy (PID: $PID), killing it..."
+  kill -9 $PID
+fi
+
+# Start Xpra with web client on 8080
+echo "🖥️ Starting Xpra..."
 xpra start :100 \
-  --start=lxsession \
-  --bind-tcp=0.0.0.0:8080 \
-  --html=on \
-  --daemon=no &
+    --start=lxsession \
+    --bind-tcp=0.0.0.0:8080 \
+    --html=on \
+    --daemon=no &
 
-# Give xpra a moment to start
-sleep 5
-
-echo ""
-echo "✅ Desktop is running with Xpra!"
-echo "👉 Open port 8080 in your Codespaces Ports panel (you may also need to set it to Public)."
-echo "👉 Then open it in your browser — you’ll get the Xpra web client!"
-
-# Launch Minecraft client inside xpra
+# Auto-launch Minecraft in background
 echo "🎮 Launching Minecraft client..."
 (
+  sleep 10
   cd Forge-Project-1.20.X || true
   chmod +x gradlew
   DISPLAY=:100 ./gradlew runClient || echo "⚠️ Failed to run client."
 ) &
+
+echo ""
+echo "✅ Xpra is running!"
+echo "👉 In Codespaces, expose port 8080 (TCP)."
+echo "👉 Open it in your browser — it should show an LXDE desktop."
