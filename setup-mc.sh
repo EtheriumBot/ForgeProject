@@ -113,11 +113,19 @@ if [ -d "$MC_DIR" ]; then
   echo "✅ Setup complete!"
   echo "👉 Open Codespaces port 8080 for Xpra web desktop."
   echo "👉 Sunshine is running (default port: 47989). Logs: /tmp/sunshine.log"
+  echo "⚠️ If you do not see any minecraft running, you need to go to the three lines on the top left corner of the screen."
+  echo "Click Start -> System Tools -> LXTerminal"
+  echo "And enter the following commands:"
+  echo "cd Forge-Project-1.20.X"
+  echo "./gradlew runClient"
 else
   echo "⚠️ No Forge project found at $MC_DIR"
   echo "👉 Starting plain Xpra desktop instead..."
   xpra start --bind-tcp=0.0.0.0:8080 --html=on --start=lxsession :100
-  echo "Open Codespaces port 8080 for Xpra web desktop. Enter the following commands:"
+  echo "Open Codespaces port 8080 for Xpra web desktop. "
+  echo "Click the three lines on the top left corner of the screen."
+  echo "Click start -> System Tools -> LXTerminal"
+  echo "And enter the following commands:"
   echo "cd Forge-Project-1.20.X"
   echo "./gradlew runClient"
 fi
