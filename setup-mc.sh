@@ -1,11 +1,13 @@
-# PLEASE READ THIS BEFORE YOU DO ANYTHING:
-# -------------------------------------------------------------------------------------
-# Run this shell scirpt first (setup-mc.sh), then run the second one (start-xpra-mc.sh)
-# To run, type in terminal the folling command:
+# !!! PLEASE READ THIS BEFORE YOU DO ANYTHING:
+# ---------------------------------------------------------------------------------------------------
+# !!! This script is only meant to be ran once! But you must run this first to setup Minecraft. !!!
+# To run this script, type in terminal the folling command:
 # chmod +x setup-mc.sh (run only once, this command allows this script to run)
 # ./setup-mc.sh (runninng the actual script)
-# Please email xwu053447@hsstu.lpsb.org for any errors encountered during the build.
-# -------------------------------------------------------------------------------------
+# Please email xwu053447@hsstu.lpsb.org for any errors encountered during the build
+# or create an issue directly on github. Link to the issue page: 
+# https://github.com/RSlover52111/ForgeProject/issues
+# ---------------------------------------------------------------------------------------------------
 
 
 #!/usr/bin/env bash
@@ -78,10 +80,9 @@ echo "⚙️ Configuring Sunshine..."
 cmake -DSUNSHINE_ENABLE_CUDA=OFF -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release ..
 
 echo "🛠️ Building Sunshine..."
-echo "Warning: This might take up to 30 minutes."
+echo "⚠️ Warning: This may take up to 30 minutes."
 cmake --build . --parallel $(nproc)
-
-echo "✅ Sunshine built successfully!"
+echo "✅ Sunshine built successfully! Starting minecraft + sunshine + xpra"
 
 # -----------------------------
 # 5. Start services
@@ -90,16 +91,24 @@ echo "✅ Sunshine built successfully!"
 # Start Sunshine in background
 echo "🌞 Starting Sunshine..."
 nohup ~/sunshine/build/sunshine > /tmp/sunshine.log 2>&1 &
-echo "Sunshine started."
+echo "✅ Sunshine started."
 
 # Start Xpra desktop and launch Minecraft inside it
 MC_DIR="workspaces/ForgeProject/Forge-Project-1.20.X"
+XPRA_DISPLAY=":100"
+XPRA_PORT=8080
 
 echo "Looking for Minecraft project folder..."
 
 if [ -d "$MC_DIR" ]; then
-  echo "🎮 Found Minecraft project. Launching inside Xpra desktop..."
-  xpra start --bind-tcp=0.0.0.0:8080 --html=on --start-child="bash -lc 'cd $MC_DIR && ./gradlew runClient'" :100
+  echo "🎮 Found Minecraft project. Launching inside Xpra desktop... Estimated time: 2 minutes"
+  xpra start $XPRA_DISPLAY \
+  --bind-tcp=0.0.0.0:$XPRA_PORT \
+  --html=on \
+  --opengl=yes \
+  --input-method=raw \
+  --exit-with-children \
+  --start-child="bash -lc 'cd $MC_DIR && ./gradlew runClient'" :100
 
   echo ""
   echo "✅ Setup complete!"
