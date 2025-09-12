@@ -36,25 +36,24 @@ xpra stop $XPRA_DISPLAY || true
 pkill -f sunshine || true
 sleep 2
 
-# -----------------------------
+# ------------------------------------------
 # 2. Start Xpra virtual desktop + Minecraft
-# -----------------------------
+# ------------------------------------------
 echo "🖥️ Starting Xpra display on $XPRA_DISPLAY ..."
 export DISPLAY=$XPRA_DISPLAY
 xpra start $XPRA_DISPLAY \
-  --bind-tcp=0.0.0.0:$XPRA_PORT \
+  --bind-tcp=0.0.0.0:8080 \
   --html=on \
   --opengl=yes \
   --input-method=raw \
-  --exit-with-children \
-  --start-child="bash -lc 'cd $MC_DIR && ./gradlew runClient'" &
+  --start="bash -lc 'cd $MC_DIR && ./gradlew runClient'" &
 
 # Give Xpra & Minecraft some time to boot
 sleep 15
 
-# -----------------------------
+# ---------------------------------
 # 3. Start Sunshine capturing Xpra
-# -----------------------------
+# ---------------------------------
 echo "🌞 Starting Sunshine (capturing $DISPLAY)..."
 DISPLAY=$XPRA_DISPLAY nohup ~/sunshine/build/sunshine > /tmp/sunshine.log 2>&1 &
 

@@ -107,8 +107,7 @@ if [ -d "$MC_DIR" ]; then
   --html=on \
   --opengl=yes \
   --input-method=raw \
-  --exit-with-children \
-  --start-child="bash -lc 'cd $MC_DIR && ./gradlew runClient'" :100
+  --start="bash -lc 'cd $MC_DIR && ./gradlew runClient'" :100
 
   echo ""
   echo "✅ Setup complete!"
