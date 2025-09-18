@@ -26,6 +26,19 @@ if ! command -v xpra &> /dev/null; then
   echo "📦 Installing Xpra..."
   sudo apt-get update
   sudo apt-get install -y xpra
+  # Add Xpra signing key
+  wget -q https://xpra.org/gpg.asc -O- | sudo apt-key add -
+
+  # Detect your Ubuntu codename
+  lsb_release -cs
+  # On Codespaces with Ubuntu 24.04, it should print: noble
+
+  # Add the repo (replace noble with what your system printed)
+  echo "deb http://xpra.org/ noble main" | sudo tee /etc/apt/sources.list.d/xpra.list
+
+  # Update and install
+  sudo apt-get update
+  sudo apt-get install xpra
 fi
 
 # -----------------------------
