@@ -1,7 +1,5 @@
 # PLEASE READ THIS BEFORE YOU DO ANYTHING:
 # --------------------------------------------------------------------------------------------
-# Do not run this shell command if you have never run the other shell script (setup-mc.sh) or
-# if the other command did not work.
 # To run this script, type the following code in the terminal:
 # chmod +x start-xpra-mc.sh
 # ./start-xpra-mc.sh
