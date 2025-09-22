@@ -1,12 +1,10 @@
 # PLEASE READ THIS BEFORE YOU DO ANYTHING:
 # --------------------------------------------------------------------------------------------
-# Do not run this shell command if you have never run the other shell script (setup-mc.sh) or
-# if the other command did not work.
 # To run this script, type the following code in the terminal:
 # chmod +x start-xpra-mc.sh
 # ./start-xpra-mc.sh
-# Please email xwu053447@hsstu.lpsb.org for any errors encountered during the build
-# or create an issue directly on github. Link to the issue page: 
+# Please email xwu053447@hsstu.lpsb.org or wulance58@gmail.com for any errors encountered 
+# during the build or create an issue directly on github. Link to the issue page: 
 # https://github.com/RSlover52111/ForgeProject/issues
 # --------------------------------------------------------------------------------------------
 
@@ -39,6 +37,7 @@ if ! command -v xpra &> /dev/null; then
   # Update and install
   sudo apt-get update
   sudo apt-get install xpra
+  sudo apt-get install -y lxterminal
 fi
 
 # -----------------------------
@@ -52,6 +51,16 @@ sleep 2
 # ------------------------------------------
 # 2. Start Xpra virtual desktop + Minecraft
 # ------------------------------------------
+
+if command -v lxterminal &>/dev/null; then
+    TERMINAL="lxterminal"
+    echo "✅ LXTerminal found, launching LXTerminal inside Xpra display."
+else
+    echo "⚠️ LXTerminal not found. Falling back to xterminal (xterm)"
+    sudo apt-get install -y xterm
+    TERMINAL="xterm"
+fi
+
 echo "🖥️ Starting Xpra display on $XPRA_DISPLAY ..."
 export DISPLAY=$XPRA_DISPLAY
 xpra start $XPRA_DISPLAY \
@@ -59,7 +68,8 @@ xpra start $XPRA_DISPLAY \
   --html=on \
   --opengl=yes \
   --input-method=raw \
-  --start="bash -lc 'cd $MC_DIR && ./gradlew runClient'" &
+  --exit-with-children \
+  --start-child=$TERMINAL
 
 # Give Xpra & Minecraft some time to boot
 sleep 15
@@ -79,7 +89,7 @@ echo "👉 Open Codespaces port $XPRA_PORT for Xpra web desktop."
 echo "👉 Sunshine is running on port 47989, capturing display $XPRA_DISPLAY."
 echo "👉 Logs: /tmp/sunshine.log"
 echo "Once you opened Xpra port 8080, you need to go to the three lines on the top left corner of the screen."
-echo "Click Start -> System Tools -> LXTerminal"
-echo "And enter the following commands:"
+echo "Enter the following commands:"
 echo "cd Forge-Project-1.20.X"
+echo "chmod +x gradlew"
 echo "./gradlew runClient"
