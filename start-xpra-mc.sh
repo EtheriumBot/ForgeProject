@@ -37,6 +37,7 @@ if ! command -v xpra &> /dev/null; then
   # Update and install
   sudo apt-get update
   sudo apt-get install xpra
+  sudo apt-get install -y lxterminal
 fi
 
 # -----------------------------
@@ -50,6 +51,16 @@ sleep 2
 # ------------------------------------------
 # 2. Start Xpra virtual desktop + Minecraft
 # ------------------------------------------
+
+if command -v lxterminal &>/dev/null; then
+    TERMINAL="lxterminal"
+    echo "✅ LXTerminal found, launching LXTerminal inside Xpra display."
+else
+    echo "⚠️ LXTerminal not found. Falling back to xterminal (xterm)"
+    sudo apt-get install -y xterm
+    TERMINAL="xterm"
+fi
+
 echo "🖥️ Starting Xpra display on $XPRA_DISPLAY ..."
 export DISPLAY=$XPRA_DISPLAY
 xpra start $XPRA_DISPLAY \
@@ -57,7 +68,8 @@ xpra start $XPRA_DISPLAY \
   --html=on \
   --opengl=yes \
   --input-method=raw \
-  --start="bash -lc 'cd $MC_DIR && ./gradlew runClient'" &
+  --exit-with-children \
+  --start-child=$TERMINAL
 
 # Give Xpra & Minecraft some time to boot
 sleep 15
