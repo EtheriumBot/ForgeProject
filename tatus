@@ -1,0 +1,49 @@
+[33mcommit 8939859f0d3617c9fb051c3aac372874580a2616[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/rslover[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: RSlover521 <wulance58@gmail.com>
+Date:   Fri Aug 15 15:31:14 2025 -0500
+
+    fixed bugs, added textures and recipes
+
+[33mcommit d8441db93ac8b13a30e56e3da2a1a7e9b439bc3c[m
+Merge: 8ec01af 272492a
+Author: RSlover521 <wulance58@gmail.com>
+Date:   Sat Aug 9 12:06:21 2025 -0500
+
+    fixed texture bug. Potential merge error
+
+[33mcommit 8ec01af7ab6ce50671375c64379a702349658f26[m
+Author: RSlover521 <wulance58@gmail.com>
+Date:   Sat Aug 9 12:05:24 2025 -0500
+
+    fixed texture bug
+
+[33mcommit 272492abf8cc045fb7e35ce3718797e5228d7fc7[m
+Merge: a0b69f1 06953d6
+Author: Ethan Wu <ethanrwu@gmail.com>
+Date:   Fri Aug 8 16:59:42 2025 -0700
+
+    Fixing merge error
+
+[33mcommit a0b69f1ca459fb2bcfd72764f67733183c17d812[m
+Author: Ethan Wu <ethanrwu@gmail.com>
+Date:   Fri Aug 8 16:57:01 2025 -0700
+
+    Added files that would've been overwritten
+
+[33mcommit 06953d6b06b970c9aafc217b27e7551dfb7ba43f[m
+Author: RSlover521 <wulance58@gmail.com>
+Date:   Sun Aug 3 16:00:14 2025 -0500
+
+    broken texture bug push
+
+[33mcommit e9369db14429131afee03e19f620fcf1a9b246a7[m
+Author: Ethan Wu <ethanrwu@gmail.com>
+Date:   Sun Aug 3 13:08:48 2025 -0700
+
+    Added forge project
+
+[33mcommit 5c83f792130905032c2334be5667323a78da08d5[m
+Author: EtheriumBot <157302802+EtheriumBot@users.noreply.github.com>
+Date:   Sun Aug 3 13:06:36 2025 -0700
+
+    Initial commit
